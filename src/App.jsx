@@ -80,6 +80,7 @@ export const App = () => {
 
   return (
     <div className="wrapper">
+      <h1>DRF x React Todo</h1>
       <CreateTodo
         editTodo={editTodo}
         handleInputChange={handleInputChange}

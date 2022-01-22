@@ -12,9 +12,12 @@ export const DrfApi = (props) => {
     <div>
       <ul>
         {todos &&
-          todos.map((todo) => {
-            return <li key={todo.id}>{todo.title}</li>;
-          })}
+          todos.map((todo) => (
+            <li key={todo.id}>
+              <input type="text" value={todo.title} />
+              <button>削除</button>
+            </li>
+          ))}
       </ul>
     </div>
   );

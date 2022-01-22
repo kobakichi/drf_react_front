@@ -15,7 +15,7 @@ export const CreateTodo = (props) => {
           onChange={handleInputChange}
           required
         />
-        <button type="submit">Create</button>
+        <button type="submit">新規作成</button>
       </form>
     </div>
   );
