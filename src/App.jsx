@@ -37,6 +37,13 @@ export const App = () => {
       body: JSON.stringify({ title }),
     }).then((res) => res.json());
   };
+
+  const deleteTodo = (id) => {
+    return fetch(`http://localhost:8000/api/todos/${id}`, {
+      method: "DELETE",
+    });
+  };
+
   // //フォーム入力を受け取る関数
   const handleInputChange = (event) => {
     event.preventDefault();
@@ -51,6 +58,16 @@ export const App = () => {
     //prevStateを使用して、setSubmitの状態を参照して、関数が発火するたびに状態を反転させる。
     setSubmit((prevState) => !prevState);
   };
+
+  //削除ボタンを押した時の処理
+  const handleDelete = (event) => {
+    const todoId = event.currentTarget.dataset.id;
+    console.log(todoId);
+    const list = todos.filter((todo) => todo["id"].toString() !== todoId);
+    setTodos(list);
+    deleteTodo(todoId);
+  };
+
   //   const value = e.target.value;
   //   const name = e.target.value;
   //   setEditTodo({ ...editTodo, [name]: value });
@@ -87,7 +104,7 @@ export const App = () => {
         handleSubmit={handleSubmit}
         // createNewTodo={createNewTodo}
       />
-      <DrfApi todos={todos} />
+      <DrfApi todos={todos} handleDelete={handleDelete} />
     </div>
   );
 };

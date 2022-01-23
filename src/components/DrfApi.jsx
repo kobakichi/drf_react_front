@@ -6,7 +6,7 @@
 import React from "react";
 
 export const DrfApi = (props) => {
-  const { todos } = props;
+  const { todos, handleDelete } = props;
 
   return (
     <div>
@@ -15,7 +15,9 @@ export const DrfApi = (props) => {
           todos.map((todo) => (
             <li key={todo.id}>
               <input type="text" value={todo.title} />
-              <button>削除</button>
+              <button data-id={todo.id} onClick={handleDelete}>
+                削除
+              </button>
             </li>
           ))}
       </ul>
