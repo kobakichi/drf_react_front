@@ -28,6 +28,7 @@ export const App = () => {
       });
   }, [submit]);
 
+  //新規作成の送信処理(POSTリクエスト)
   const postTodo = (title) => {
     return fetch("http://localhost:8000/api/todos/", {
       method: "POST",
@@ -38,6 +39,18 @@ export const App = () => {
     }).then((res) => res.json());
   };
 
+  //編集処理のPUTリクエスト
+  const putTodo = (id, title) => {
+    return fetch(`http://localhost:8000/api/todos/${id}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ title }),
+    }).then((res) => res.json());
+  };
+
+  //削除ボタンを押した時のDELETEリクエスト
   const deleteTodo = (id) => {
     return fetch(`http://localhost:8000/api/todos/${id}`, {
       method: "DELETE",
@@ -68,32 +81,16 @@ export const App = () => {
     deleteTodo(todoId);
   };
 
-  //   const value = e.target.value;
-  //   const name = e.target.value;
-  //   setEditTodo({ ...editTodo, [name]: value });
-  // };
-
-  // //送信ボタンを押した時に発火。todoをデータベースへ追加
-  // const createNewTodo = (todo) => {
-  //   try {
-  //     async function fetchCreateTodo(todo) {
-  //       const config = {
-  //         method: "POST",
-  //         headers: {
-  //           "Content-Type": "application/json",
-  //         },
-  //         body: JSON.stringify(todo),
-  //       };
-  //       const res = await fetch("http://localhost:8000/api/todos/", config);
-  //       const todoJson = await res.json();
-  //       setTodos([todoJson, ...todos]);
-  //       setEditTodo({ id: "", title: "", content: "" });
-  //     }
-  //     fetchCreateTodo(todo);
-  //   } catch (e) {
-  //     console.error(e);
-  //   }
-  // };
+  //Todoリストの編集処理
+  const handleOnEdit = (id, value) => {
+    const newTodos = todos.map((todo, todoid) => {
+      if (todoid === id) {
+        todo.title = value;
+      }
+      return todo;
+    });
+    setTodos(newTodos);
+  };
 
   return (
     <div className="wrapper">
@@ -104,7 +101,12 @@ export const App = () => {
         handleSubmit={handleSubmit}
         // createNewTodo={createNewTodo}
       />
-      <DrfApi todos={todos} handleDelete={handleDelete} />
+      <DrfApi
+        todos={todos}
+        handleDelete={handleDelete}
+        handleOnEdit={handleOnEdit}
+        putTodo={putTodo}
+      />
     </div>
   );
 };
