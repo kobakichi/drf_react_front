@@ -41,7 +41,7 @@ export const App = () => {
 
   //編集処理のPUTリクエスト
   const putTodo = (id, title) => {
-    return fetch(`http://localhost:8000/api/todos/${id}`, {
+    return fetch(`http://localhost:8000/api/todos/${id}/`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
@@ -52,7 +52,7 @@ export const App = () => {
 
   //削除ボタンを押した時のDELETEリクエスト
   const deleteTodo = (id) => {
-    return fetch(`http://localhost:8000/api/todos/${id}`, {
+    return fetch(`http://localhost:8000/api/todos/${id}/`, {
       method: "DELETE",
     });
   };
@@ -79,12 +79,13 @@ export const App = () => {
     const list = todos.filter((todo) => todo["id"].toString() !== todoId);
     setTodos(list);
     deleteTodo(todoId);
+    setSubmit((prevState) => !prevState);
   };
 
   //Todoリストの編集処理
   const handleOnEdit = (id, value) => {
-    const newTodos = todos.map((todo, todoid) => {
-      if (todoid === id) {
+    const newTodos = todos.map((todo) => {
+      if (todo.id === id) {
         todo.title = value;
       }
       return todo;

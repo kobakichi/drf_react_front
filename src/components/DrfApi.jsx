@@ -6,21 +6,24 @@
 import React from "react";
 
 export const DrfApi = (props) => {
-  const { todos, handleDelete, handleOnEdit } = props;
+  const { todos, handleDelete, handleOnEdit, putTodo } = props;
 
   return (
     <div>
       <ul>
         {todos &&
-          todos.map((todo, index) => (
+          todos.map((todo) => (
             <li key={todo.id}>
               <input
                 type="text"
                 value={todo.title}
-                onChange={(event) => handleOnEdit(index, event.target.value)}
+                onChange={(event) => handleOnEdit(todo.id, event.target.value)}
               />
+              <button data-id={todo.id} onClick={putTodo}>
+                変更確定
+              </button>
               <button data-id={todo.id} onClick={handleDelete}>
-                削除
+                削除する
               </button>
             </li>
           ))}
