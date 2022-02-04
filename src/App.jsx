@@ -14,29 +14,29 @@ export const App = () => {
   //useEffectを使用して、Djangoのtodosデータを取得する
   useEffect(() => {
     //Django側のurlへリクエスト
-    fetch("http://localhost:8000/api/todos/")
+    const fetchGet = async () => {
+      const response = await fetch("http://localhost:8000/api/todos/");
       //受け取った値をjson形式に変換
-      .then((res) => res.json())
-      .then((todo) => {
-        //setTodosを更新
-        console.log(todo);
-        console.log(submit);
-        setTodos(todo);
-      })
-      .catch((error) => {
-        console.error(error);
-      });
+      const todoJson = await response.json();
+      //setTodosを更新
+      setTodos(todoJson);
+    };
+    fetchGet().catch((error) => {
+      console.error(error);
+    });
   }, [submit]);
 
   //新規作成の送信処理(POSTリクエスト)
-  const postTodo = (title) => {
-    return fetch("http://localhost:8000/api/todos/", {
+  const postTodo = async (title) => {
+    await fetch("http://localhost:8000/api/todos/", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({ title }),
     }).then((res) => res.json());
+    //prevStateを使用して、setSubmitの状態を参照して、関数が発火するたびに状態を反転させる。
+    setSubmit((prevState) => !prevState);
   };
 
   //編集処理のPUTリクエスト
@@ -51,10 +51,11 @@ export const App = () => {
   };
 
   //削除ボタンを押した時のDELETEリクエスト
-  const deleteTodo = (id) => {
-    return fetch(`http://localhost:8000/api/todos/${id}/`, {
+  const deleteTodo = async (id) => {
+    await fetch(`http://localhost:8000/api/todos/${id}/`, {
       method: "DELETE",
     });
+    setSubmit((prevState) => !prevState);
   };
 
   // //フォーム入力を受け取る関数
@@ -68,8 +69,6 @@ export const App = () => {
     event.preventDefault();
     postTodo(editTodo);
     setEditTodo("");
-    //prevStateを使用して、setSubmitの状態を参照して、関数が発火するたびに状態を反転させる。
-    setSubmit((prevState) => !prevState);
   };
 
   //削除ボタンを押した時の処理
