@@ -78,7 +78,6 @@ export const App = () => {
     const list = todos.filter((todo) => todo["id"].toString() !== todoId);
     setTodos(list);
     deleteTodo(todoId);
-    setSubmit((prevState) => !prevState);
   };
 
   //Todoリストの編集処理
