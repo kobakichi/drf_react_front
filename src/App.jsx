@@ -40,14 +40,15 @@ export const App = () => {
   };
 
   //編集処理のPUTリクエスト
-  const putTodo = (id, title) => {
-    return fetch(`http://localhost:8000/api/todos/${id}/`, {
+  const putTodo = async (id, title) => {
+    await fetch(`http://localhost:8000/api/todos/${id}/`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({ title }),
     }).then((res) => res.json());
+    setSubmit((prevState) => !prevState);
   };
 
   //削除ボタンを押した時のDELETEリクエスト
@@ -74,7 +75,6 @@ export const App = () => {
   //削除ボタンを押した時の処理
   const handleDelete = (event) => {
     const todoId = event.currentTarget.dataset.id;
-    console.log(todoId);
     const list = todos.filter((todo) => todo["id"].toString() !== todoId);
     setTodos(list);
     deleteTodo(todoId);
@@ -91,6 +91,11 @@ export const App = () => {
     setTodos(newTodos);
   };
 
+  const handlePut = (event) => {
+    const todoId = event.currentTarget.dataset.id;
+    putTodo(todoId);
+  };
+
   return (
     <div className="wrapper">
       <h1>DRF x React Todo</h1>
@@ -104,7 +109,7 @@ export const App = () => {
         todos={todos}
         handleDelete={handleDelete}
         handleOnEdit={handleOnEdit}
-        putTodo={putTodo}
+        handlePut={handlePut}
       />
     </div>
   );
