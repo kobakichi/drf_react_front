@@ -6,7 +6,7 @@
 import React from "react";
 
 export const DrfApi = (props) => {
-  const { todos, handleDelete, handleOnEdit, putTodo } = props;
+  const { todos, handleDelete, handleOnEdit, handlePut } = props;
 
   return (
     <div>
@@ -19,7 +19,7 @@ export const DrfApi = (props) => {
                 value={todo.title}
                 onChange={(event) => handleOnEdit(todo.id, event.target.value)}
               />
-              <button data-id={todo.id} onClick={putTodo}>
+              <button data-id={todo.id} onClick={handlePut}>
                 変更確定
               </button>
               <button data-id={todo.id} onClick={handleDelete}>
