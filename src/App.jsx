@@ -93,7 +93,9 @@ export const App = () => {
 
   const handlePut = (event) => {
     const todoId = event.currentTarget.dataset.id;
-    putTodo(todoId);
+    const todoTitle = todos.find((todo) => todo.id !== todoId);
+    console.log(todoTitle);
+    putTodo(todoId, todoTitle);
   };
 
   return (
