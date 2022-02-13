@@ -79,10 +79,12 @@ export const App = () => {
 
   //削除ボタンを押した時の処理
   const handleDelete = (event) => {
-    const todoId = event.currentTarget.dataset.id;
-    const list = todos.filter((todo) => todo["id"].toString() !== todoId);
-    setTodos(list);
-    deleteTodo(todoId);
+    if (window.confirm("「todoを削除しますか?」")) {
+      const todoId = event.currentTarget.dataset.id;
+      const list = todos.filter((todo) => todo["id"].toString() !== todoId);
+      setTodos(list);
+      deleteTodo(todoId);
+    }
   };
 
   //Todoリストの編集処理
@@ -97,9 +99,11 @@ export const App = () => {
   };
 
   const handlePut = (event) => {
-    const todoId = event.currentTarget.dataset.id;
-    const todoTitle = todos.find((todo) => todo["id"].toString() === todoId);
-    putTodo(todoId, todoTitle.title);
+    if (window.confirm("内容を変更しますか？")) {
+      const todoId = event.currentTarget.dataset.id;
+      const todoTitle = todos.find((todo) => todo["id"].toString() === todoId);
+      putTodo(todoId, todoTitle.title);
+    }
   };
 
   return (
