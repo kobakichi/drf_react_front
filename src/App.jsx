@@ -51,7 +51,7 @@ export const App = () => {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ title: title }),
+      body: JSON.stringify({ title }),
     }).then((res) => res.json());
     setSubmit((prevState) => !prevState);
   };
@@ -99,7 +99,7 @@ export const App = () => {
   const handlePut = (event) => {
     const todoId = event.currentTarget.dataset.id;
     const todoTitle = todos.find((todo) => todo["id"].toString() === todoId);
-    putTodo(todoId, todoTitle);
+    putTodo(todoId, todoTitle.title);
   };
 
   return (
@@ -109,7 +109,6 @@ export const App = () => {
         editTodo={editTodo}
         handleInputChange={handleInputChange}
         handleSubmit={handleSubmit}
-        // createNewTodo={createNewTodo}
       />
       <DrfApi
         todos={todos}

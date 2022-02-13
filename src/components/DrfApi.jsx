@@ -16,6 +16,7 @@ export const DrfApi = (props) => {
             <li key={todo.id}>
               <input
                 type="text"
+                name="title"
                 value={todo.title}
                 onChange={(event) => handleOnEdit(todo.id, event.target.value)}
               />
