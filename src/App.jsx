@@ -1,3 +1,8 @@
+/**
+ * App.jsx
+ *
+ */
+
 import React, { useState, useEffect } from "react";
 import "./App.css";
 import { CreateTodo } from "./components/CreateTodo";
@@ -46,7 +51,7 @@ export const App = () => {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ title }),
+      body: JSON.stringify({ title: title }),
     }).then((res) => res.json());
     setSubmit((prevState) => !prevState);
   };
@@ -93,8 +98,7 @@ export const App = () => {
 
   const handlePut = (event) => {
     const todoId = event.currentTarget.dataset.id;
-    const todoTitle = todos.find((todo) => todo.id !== todoId);
-    console.log(todoTitle);
+    const todoTitle = todos.find((todo) => todo["id"].toString() === todoId);
     putTodo(todoId, todoTitle);
   };
 
