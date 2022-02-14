@@ -1,7 +1,7 @@
 import React from "react";
 
 export const CreateTodo = (props) => {
-  const { editTodo, handleInputChange, handleSubmit } = props;
+  const { addInputTodo, handleInputChange, handleSubmit } = props;
 
   return (
     <div>
@@ -11,7 +11,7 @@ export const CreateTodo = (props) => {
           type="text"
           name="title"
           placeholder="title"
-          value={editTodo}
+          value={addInputTodo}
           onChange={handleInputChange}
           required
         />

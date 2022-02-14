@@ -1,6 +1,6 @@
 /**
  * App.jsx
- *
+ * @returns
  */
 
 import React, { useState, useEffect } from "react";
@@ -12,7 +12,7 @@ export const App = () => {
   //todoリストの初期値
   const [todos, setTodos] = useState([]);
   //Todoの新規作成用
-  const [editTodo, setEditTodo] = useState("");
+  const [addInputTodo, setaddInputTodo] = useState("");
   //submitされたかどうかの判定
   const [submit, setSubmit] = useState(false);
 
@@ -29,9 +29,13 @@ export const App = () => {
     fetchGet().catch((error) => {
       console.error(error);
     });
+    //submitの状態が変わったらまたGETリクエストを飛ばす
   }, [submit]);
 
-  //新規作成の送信処理(POSTリクエスト)
+  /**
+   * 新規作成の送信処理(POSTリクエスト)
+   * @param {*} title - addInputTodoの入力値
+   */
   const postTodo = async (title) => {
     await fetch("http://localhost:8000/api/todos/", {
       method: "POST",
@@ -44,7 +48,11 @@ export const App = () => {
     setSubmit((prevState) => !prevState);
   };
 
-  //編集処理のPUTリクエスト
+  /**
+   * 編集処理後のPUTリクエスト
+   * @param {*} id - todosのid
+   * @param {*} title - todosを編集した値
+   */
   const putTodo = async (id, title) => {
     await fetch(`http://localhost:8000/api/todos/${id}/`, {
       method: "PUT",
@@ -67,14 +75,14 @@ export const App = () => {
   // //フォーム入力を受け取る関数
   const handleInputChange = (event) => {
     event.preventDefault();
-    setEditTodo(event.target.value);
+    setaddInputTodo(event.target.value);
   };
 
   //ボタンをクリックしたらPOSTで送信
   const handleSubmit = (event) => {
     event.preventDefault();
-    postTodo(editTodo);
-    setEditTodo("");
+    postTodo(addInputTodo);
+    setaddInputTodo("");
   };
 
   //削除ボタンを押した時の処理
@@ -101,8 +109,8 @@ export const App = () => {
   const handlePut = (event) => {
     if (window.confirm("内容を変更しますか？")) {
       const todoId = event.currentTarget.dataset.id;
-      const todoTitle = todos.find((todo) => todo["id"].toString() === todoId);
-      putTodo(todoId, todoTitle.title);
+      const findTodos = todos.find((todo) => todo["id"].toString() === todoId);
+      putTodo(todoId, findTodos.title);
     }
   };
 
@@ -110,7 +118,7 @@ export const App = () => {
     <div className="wrapper">
       <h1>DRF x React Todo</h1>
       <CreateTodo
-        editTodo={editTodo}
+        addInputTodo={addInputTodo}
         handleInputChange={handleInputChange}
         handleSubmit={handleSubmit}
       />
