@@ -5,6 +5,7 @@
 
 import React, { useState, useEffect } from "react";
 import "./App.css";
+import { Modal } from "./components/Modal";
 import { AddTodo } from "./components/AddTodo";
 import { TodoList } from "./components/TodoList";
 
@@ -138,6 +139,7 @@ export const App = () => {
   return (
     <div className="wrapper">
       <h1>DRF x React Todo</h1>
+      <button>ログイン画面表示</button>
       <AddTodo
         addInputTodo={addInputTodo}
         handleInputChange={handleInputChange}
