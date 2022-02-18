@@ -16,6 +16,8 @@ export const App = () => {
   const [addInputTodo, setaddInputTodo] = useState("");
   //submitされたかどうかの判定
   const [submit, setSubmit] = useState(false);
+  //Modal表示用state
+  const [showModal, setShowModal] = useState(false);
 
   //useEffectを使用して、Djangoのtodosデータを取得する
   useEffect(() => {
@@ -136,10 +138,27 @@ export const App = () => {
     }
   };
 
+  /**
+   * ログイン画面表示ボタンを押したらshowModalをtrueにしてModal表示
+   * prevStateを使用して、falseをtrueに変更
+   */
+  const IndicateModal = () => {
+    setShowModal((prevState) => !prevState);
+  };
+
+  /**
+   * 閉じるボタンを押したらsetShowModalをfalseにしてModal非表示
+   * prevStateを使用して、trueからfalseへ
+   */
+  const closeModal = () => {
+    setShowModal((prevState) => !prevState);
+  };
+
   return (
     <div className="wrapper">
       <h1>DRF x React Todo</h1>
-      <button>ログイン画面表示</button>
+      <button onClick={IndicateModal}>ログイン画面表示</button>
+      <Modal showFlag={showModal} closeModal={closeModal} />
       <AddTodo
         addInputTodo={addInputTodo}
         handleInputChange={handleInputChange}
